@@ -6,46 +6,42 @@ public class XorGate extends Gate {
     NandGate nandBottom;
     NandGate nandRight;
 
-
-                        public XorGate() {
+    public XorGate() {
         super("XOR", 2, 1);
-
-                    nandLeft = new NandGate();
-
+        nandLeft = new NandGate();
         nandTop = new NandGate();
         nandTop.connect(1, nandLeft);
+        nandBottom = new NandGate();
+        nandBottom.connect(0, nandLeft);
 
-                    nandBottom   =   new NandGate();
-                    nandBottom.connect(0, nandLeft);
-
-               nandRight = new NandGate();
-    nandRight.connect(0, nandTop);
-    nandRight.connect(1, nandBottom);
+        nandRight = new NandGate();
+        nandRight.connect(0, nandTop);
+        nandRight.connect(1, nandBottom);
     }
 
 
     @Override
     public boolean read(int outputPin) {
-            if (outputPin != 0) {
+        if (outputPin != 0) {
             throw new IndexOutOfBoundsException(outputPin);
-                            }
-                            return nandRight.read();
-                        }
+        }
+        return nandRight.read();
+    }
 
 
     @Override
-           public void connect(int inputPin, SignalEmitter emitter) {
+    public void connect(int inputPin, SignalEmitter emitter) {
     switch (inputPin) {
-                case 0:
-                        nandTop.connect(0, emitter);
-                nandLeft.connect(0, emitter);
-                break;
-                case 1:
-                nandLeft.connect(1, emitter);
-                nandBottom.connect(1, emitter);
-                break;
-            default:
-                throw new IndexOutOfBoundsException(inputPin);
+        case 0:
+            nandTop.connect(0, emitter);
+            nandLeft.connect(0, emitter);
+            break;
+        case 1:
+            nandLeft.connect(1, emitter);
+            nandBottom.connect(1, emitter);
+            break;
+        default:
+            throw new IndexOutOfBoundsException(inputPin);
         }
     }
 }
